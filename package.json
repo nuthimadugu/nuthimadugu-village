@@ -1,0 +1,24 @@
+{
+  "name": "nuthimadugu-village-backend",
+  "version": "1.0.0",
+  "description": "Village Portal Backend with Security Questions Authentication",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["village", "portal", "authentication"],
+  "author": "Girish Babu Kutagulla",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.5",
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
