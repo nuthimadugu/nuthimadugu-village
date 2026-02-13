@@ -11,61 +11,48 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve static files (your index.html and others) from the root folder
+// Serve static files
 app.use(express.static(path.join(__dirname, './')));
 
-// Railway Port - Do NOT change this to 3000. 
-// Railway needs process.env.PORT to make your URL work.
+// Railway Port
 const PORT = process.env.PORT || 8080;
 
-// Database Connection using your DIRECT values
+// Using your PUBLIC credentials to bypass "ENOTFOUND"
 const db = mysql.createPool({
-    host: 'mysql.railway.internal', // Internal host for Railway
+    host: 'shinkansen.proxy.rlwy.net', 
     user: 'root',
     password: 'TvTDEemzDosefkZFvWjqnhTkeNDjzSnY',
     database: 'railway',
-    port: 3306,
+    port: 22505, // Using the Public Port you provided
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    connectTimeout: 20000 // Higher timeout for public connection
 });
 
-// Test the connection immediately
+// Test the connection
 db.getConnection((err, connection) => {
     if (err) {
         console.error('❌ Database connection failed Error: ' + err.message);
     } else {
-        console.log('✅ Connected to Railway MySQL Database Successfully!');
+        console.log('✅ Connected to Railway MySQL Database via Public Proxy!');
         connection.release();
     }
 });
 
-// --- ROUTES ---
-
-// 1. Health Check (Test if the server is alive)
+// Health Check
 app.get('/health', (req, res) => {
     res.json({ 
         status: 'OK', 
-        database: 'Connected',
         message: 'Nuthimadugu Village API is running!' 
     });
 });
 
-// 2. Serve your frontend (index.html)
+// Serve index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// 3. Example API Route (Replace 'users' with a table from your database_schema.sql)
-app.get('/api/test-db', (req, res) => {
-    db.query('SELECT 1 + 1 AS solution', (err, results) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json({ message: 'Database query successful', data: results });
-    });
-});
-
-// Start the Server
 app.listen(PORT, () => {
     console.log(`🚀 Server is live on port ${PORT}`);
-    console.log(`🔗 Access it at: https://nuthimadugu-village-production.up.railway.app/`);
 });
