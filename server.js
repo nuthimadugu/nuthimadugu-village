@@ -14,10 +14,10 @@ app.use(express.json());
 // Serve static files from the root directory
 app.use(express.static(path.join(__dirname, './')));
 
-// CRITICAL: Railway uses process.env.PORT. Do not hardcode 3000 or 8080.
-const PORT = process.env.PORT || 3000;
+// SETTING PORT TO 8080 TO MATCH YOUR RAILWAY PUBLIC URL SETTING
+const PORT = process.env.PORT || 8080;
 
-// Database Connection
+// Database Connection using your PUBLIC credentials
 const db = mysql.createPool({
     host: 'shinkansen.proxy.rlwy.net', 
     user: 'root',
@@ -26,7 +26,8 @@ const db = mysql.createPool({
     port: 22505,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    connectTimeout: 20000 
 });
 
 // Test Connection
@@ -34,21 +35,28 @@ db.getConnection((err, connection) => {
     if (err) {
         console.error('❌ Database connection failed: ' + err.message);
     } else {
-        console.log('✅ Database connected successfully!');
+        console.log('✅ Database connected successfully via Public Proxy!');
         connection.release();
     }
 });
 
-// Routes
+// --- API ROUTES ---
+
+// 1. Health Check
 app.get('/health', (req, res) => {
-    res.json({ status: 'OK', message: 'Nuthimadugu Village API is live!' });
+    res.json({ 
+        status: 'OK', 
+        message: 'Nuthimadugu Village API is live on Port 8080!' 
+    });
 });
 
-// Default route to serve your HTML file
+// 2. Default route to serve your HTML file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Start the Server
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
+    console.log(`🚀 Server is active on port ${PORT}`);
+    console.log(`🔗 URL: https://nuthimadugu-village-production-e8a6.up.railway.app/`);
 });
