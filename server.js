@@ -20,10 +20,13 @@ const pool = mysql.createPool({
     connectionLimit: 10
 });
 
-// REQUIRED: Health Check for Railway
-app.get('/', (req, res) => res.status(200).send('Village Server is Active'));
+// MANDATORY: Railway Health Check Endpoint
+// This stops the "Stopping Container" logs by telling Railway the server is OK.
+app.get('/', (req, res) => {
+    res.status(200).send('<h1>🌾 Nuthimadugu Village Server is Live</h1>');
+});
 
-// --- DYNAMIC JOBS ---
+// --- DYNAMIC JOBS ENDPOINT ---
 app.get('/api/jobs', async (req, res) => {
     const jobAlerts = [
         { title: "AP Grama Sachivalayam 2026", source: "Official Govt", date: "Feb 14", link: "https://gramawardsachivalayam.ap.gov.in/" },
@@ -36,15 +39,12 @@ app.get('/api/jobs', async (req, res) => {
 app.post('/api/auth/admin-login', async (req, res) => {
     try {
         const { password } = req.body;
-        const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Farmer@515001';
-        
-        if (password !== ADMIN_PASSWORD) return res.status(401).json({ error: 'Invalid Password' });
+        const ADMIN_PW = process.env.ADMIN_PASSWORD || 'Farmer@515001';
+        if (password !== ADMIN_PW) return res.status(401).json({ error: 'Invalid Password' });
 
         let [admins] = await pool.query('SELECT * FROM users WHERE role = "admin" LIMIT 1');
-        
-        // Auto-seed admin if table is empty
         if (admins.length === 0) {
-            const hashedPw = await bcrypt.hash(ADMIN_PASSWORD, 10);
+            const hashedPw = await bcrypt.hash(ADMIN_PW, 10);
             await pool.query(
                 'INSERT INTO users (name, email, mobile, password, role) VALUES (?, ?, ?, ?, ?)',
                 ['Admin', 'admin@nuthimadugu.in', '9999999999', hashedPw, 'admin']
@@ -54,9 +54,11 @@ app.post('/api/auth/admin-login', async (req, res) => {
 
         const token = jwt.sign({ userId: admins[0].id, role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '12h' });
         res.json({ success: true, token, user: { name: 'Admin', role: 'admin' } });
-    } catch (err) { res.status(500).json({ error: 'DB Connection Error' }); }
+    } catch (err) { res.status(500).json({ error: 'Database Error' }); }
 });
 
-// Use the PORT variable you added to Railway
+// IMPORTANT: Use process.env.PORT to allow Railway to assign the port
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server active on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`🚀 Server active on port ${PORT}`);
+});
