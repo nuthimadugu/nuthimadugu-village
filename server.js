@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Database Pool using Railway Variables
+// Database Pool using your Railway Variables
 const pool = mysql.createPool({
     host: process.env.DB_HOST || 'mysql.railway.internal',
     user: process.env.DB_USER || 'root',
@@ -22,6 +22,9 @@ const pool = mysql.createPool({
 
 const JWT_SECRET = process.env.JWT_SECRET || 'nuthimadugu_secret_2026';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Farmer@515001';
+
+// Railway Health Check
+app.get('/', (req, res) => res.status(200).send('Village Server Live'));
 
 // --- DYNAMIC JOBS ---
 app.get('/api/jobs', async (req, res) => {
@@ -40,7 +43,7 @@ app.post('/api/auth/admin-login', async (req, res) => {
 
         let [admins] = await pool.query('SELECT * FROM users WHERE role = "admin" LIMIT 1');
         
-        // Auto-seed admin if the table is empty
+        // Auto-seed admin if table is empty
         if (admins.length === 0) {
             const hashedPw = await bcrypt.hash(ADMIN_PASSWORD, 10);
             await pool.query(
@@ -52,23 +55,13 @@ app.post('/api/auth/admin-login', async (req, res) => {
 
         const token = jwt.sign({ userId: admins[0].id, role: 'admin' }, JWT_SECRET, { expiresIn: '12h' });
         res.json({ success: true, token, user: { name: 'Admin', role: 'admin' } });
-    } catch (err) { res.status(500).json({ error: 'Database Error' }); }
+    } catch (err) { res.status(500).json({ error: 'DB Connection Error' }); }
 });
 
-// --- SECURITY QUESTIONS ---
 app.get('/api/security-questions', (req, res) => {
     res.json({ success: true, questions: ["Mother's maiden name?", "First pet?", "Birth city?"] });
 });
 
-// --- OTHER AUTH ENDPOINTS (Login/Register) ---
-app.post('/api/auth/login', async (req, res) => {
-    const { email, password } = req.body;
-    const [users] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
-    if (users.length > 0 && await bcrypt.compare(password, users[0].password)) {
-        const token = jwt.sign({ userId: users[0].id }, JWT_SECRET);
-        return res.json({ success: true, token, user: { name: users[0].name, role: users[0].role } });
-    }
-    res.status(401).json({ error: "Invalid login" });
-});
-
-app.listen(process.env.PORT || 3000, () => console.log(`🚀 Server active`));
+// Use Railway provided port or default to 8080
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server active on port ${PORT}`));
