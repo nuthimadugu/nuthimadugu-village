@@ -33,11 +33,8 @@
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--primary-light); }
         .btn-danger { background: var(--danger); color: white; }
-        .btn-danger:hover { background: #c82333; }
         .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { background: #218838; }
         .btn-secondary { background: var(--secondary); color: white; }
-        .btn-secondary:hover { background: #e65100; }
         .btn-full { width: 100%; justify-content: center; }
         .btn:disabled { opacity: 0.6; cursor: not-allowed; }
         
@@ -88,22 +85,17 @@
         .msg-bubble { padding: 10px 14px; border-radius: 15px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .message.own .msg-bubble { background: var(--primary); color: white; }
         .msg-time { font-size: 0.7em; color: var(--text-light); margin-top: 3px; }
-        .message.own .msg-time { text-align: right; }
         .chat-input-area { padding: 15px; background: white; border-top: 1px solid var(--border); display: flex; gap: 10px; }
-        .chat-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 25px; outline: none; font-size: 0.95em; }
-        .chat-input:focus { border-color: var(--primary); }
-        .send-btn { width: 45px; height: 45px; border: none; background: var(--primary); color: white; border-radius: 50%; cursor: pointer; font-size: 1.2em; }
+        .chat-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 25px; outline: none; }
+        .send-btn { width: 45px; height: 45px; border: none; background: var(--primary); color: white; border-radius: 50%; cursor: pointer; }
         .chat-login-prompt { padding: 20px; text-align: center; background: #fff3e0; }
         
         /* Modals */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
         .modal.active { display: flex; }
-        .modal-content { background: white; border-radius: 16px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; margin: 20px; }
+        .modal-content { background: white; border-radius: 16px; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
         .modal-header { padding: 20px; text-align: center; background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; position: relative; }
-        .modal-header .close { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.2em; }
-        .modal-header .icon { font-size: 2.5em; margin-bottom: 10px; }
-        .modal-header h2 { margin-bottom: 5px; }
-        .modal-header p { opacity: 0.9; font-size: 0.9em; }
+        .modal-header .close { position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.2); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; }
         .modal-body { padding: 25px; }
         .modal-tabs { display: flex; background: var(--bg); }
         .modal-tab { flex: 1; padding: 12px; border: none; background: none; cursor: pointer; font-weight: 500; border-bottom: 3px solid transparent; }
@@ -111,38 +103,17 @@
         
         .form-group { margin-bottom: 18px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9em; }
-        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: 10px; font-size: 1em; transition: border-color 0.3s; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
+        .form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: 10px; }
         
-        .error-msg { background: #ffebee; color: #c62828; padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center; display: none; }
-        .success-msg { background: #e8f5e9; color: #2e7d32; padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center; display: none; }
-        .info-msg { background: #e3f2fd; color: #1976d2; padding: 12px; border-radius: 8px; margin-bottom: 15px; }
+        .error-msg { background: #ffebee; color: #c62828; padding: 12px; border-radius: 8px; margin-bottom: 15px; display: none; }
+        .success-msg { background: #e8f5e9; color: #2e7d32; padding: 12px; border-radius: 8px; margin-bottom: 15px; display: none; }
+        .info-msg { background: #e3f2fd; color: #1976d2; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85em; }
         
         .link-btn { color: var(--primary); cursor: pointer; font-size: 0.9em; text-decoration: underline; }
-        
         .auth-panel { display: none; }
         .auth-panel.active { display: block; }
-        
-        .security-questions { background: #f5f5f5; padding: 15px; border-radius: 10px; margin: 15px 0; }
-        .security-questions h4 { color: var(--primary); margin-bottom: 10px; font-size: 0.95em; }
-        
-        /* Footer */
+
         .footer { background: #333; color: white; text-align: center; padding: 20px; margin-top: 30px; }
-        .footer p { font-size: 0.85em; opacity: 0.8; margin: 5px 0; }
-        .footer .credit { margin-top: 10px; font-size: 0.75em; opacity: 0.6; }
-        
-        .loading { display: inline-block; width: 16px; height: 16px; border: 2px solid #f3f3f3; border-top: 2px solid var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 { font-size: 1.2em; }
-            .header-content { justify-content: center; text-align: center; }
-            .nav { top: auto; position: relative; }
-            .nav-btn { padding: 8px 12px; font-size: 0.8em; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .modal-content { margin: 10px; }
-        }
     </style>
 </head>
 <body>
@@ -182,7 +153,6 @@
     </nav>
 
     <main class="main">
-        <!-- HOME -->
         <section id="home" class="section active">
             <div class="stats-grid">
                 <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value">~2,500</div><div class="stat-label">Population</div></div>
@@ -193,344 +163,329 @@
             <div class="card">
                 <h3>🌾 Welcome to Nuthimadugu</h3>
                 <p>Welcome to the official village portal of Nuthimadugu, Kambadur Mandal, Anantapuramu District, Andhra Pradesh.</p>
-                <p style="margin-top: 10px;">This portal provides information about our village, institutions, events, and community services.</p>
             </div>
         </section>
 
-        <!-- ABOUT -->
         <section id="about" class="section">
             <div class="card">
                 <h3>📍 About Nuthimadugu</h3>
-                <p><strong>Location:</strong> Kambadur Mandal, Anantapuramu District, Andhra Pradesh</p>
+                <p><strong>Location:</strong> Kambadur Mandal, Anantapuramu District</p>
                 <p><strong>PIN Code:</strong> 515787</p>
-                <p><strong>Population:</strong> Approximately 2,500</p>
-                <p><strong>Main Occupation:</strong> Agriculture</p>
-                <p style="margin-top: 10px;"><strong>Weekly Market:</strong> Every Monday at Market Yard</p>
-                <p><strong>Main Crops:</strong> Groundnut, Paddy, Millets</p>
+                <p><strong>Main Occupation:</strong> Agriculture (Groundnut, Paddy, Millets)</p>
             </div>
         </section>
 
-        <!-- INSTITUTIONS -->
         <section id="institutions" class="section">
             <div class="card">
                 <h3>🏛️ Village Institutions</h3>
                 <div style="display: grid; gap: 15px; margin-top: 15px;">
                     <div style="padding: 15px; background: var(--bg); border-radius: 10px;">
                         <h4>🏛️ Gram Panchayat Office</h4>
-                        <p>📞 08559-245001 | Mon-Sat 10AM-5PM</p>
-                    </div>
-                    <div style="padding: 15px; background: var(--bg); border-radius: 10px;">
-                        <h4>🏥 Primary Health Center</h4>
-                        <p>📞 08559-245200 | 24x7 Emergency</p>
-                    </div>
-                    <div style="padding: 15px; background: var(--bg); border-radius: 10px;">
-                        <h4>🏫 ZP High School</h4>
-                        <p>📞 08559-245102 | Mon-Sat 9AM-4PM</p>
+                        <p>Mon-Sat 10AM-5PM</p>
                     </div>
                     <div style="padding: 15px; background: var(--bg); border-radius: 10px;">
                         <h4>🏦 Andhra Pradesh Grameena Bank</h4>
-                        <p>📞 08559-245300 | Mon-Fri 10AM-4PM, Sat 10AM-1PM</p>
-                    </div>
-                    <div style="padding: 15px; background: var(--bg); border-radius: 10px;">
-                        <h4>📮 Post Office</h4>
-                        <p>📞 08559-245050 | Mon-Sat 10AM-5PM</p>
-                    </div>
-                    <div style="padding: 15px; background: var(--bg); border-radius: 10px;">
-                        <h4>🕉️ Sri Venkateswara Temple</h4>
-                        <p>Daily 6AM-12PM, 4PM-8PM</p>
-                    </div>
-                    <div style="padding: 15px; background: var(--bg); border-radius: 10px;">
-                        <h4>🛒 Weekly Market Yard</h4>
-                        <p>Monday 6AM-2PM</p>
+                        <p>Mon-Fri 10AM-4PM</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CHAT -->
         <section id="chat" class="section">
-            <div class="card"><h3>💬 Village Community Chat</h3></div>
             <div class="chat-container">
                 <div class="chat-header">💬 Community Chat</div>
                 <div class="chat-messages" id="chatMessages">
-                    <div class="message">
-                        <div class="msg-avatar">R</div>
-                        <div class="msg-content">
-                            <div class="msg-sender">Rama Rao</div>
-                            <div class="msg-bubble">Good morning! Don't forget weekly market tomorrow.</div>
-                            <div class="msg-time">8:00 AM</div>
-                        </div>
-                    </div>
+                    <div class="message"><div class="msg-avatar">S</div><div class="msg-content"><div class="msg-sender">System</div><div class="msg-bubble">Welcome to the village chat!</div></div></div>
                 </div>
                 <div id="chatLoginPrompt" class="chat-login-prompt">
-                    <p style="margin-bottom: 15px;">🔐 Please login to participate in chat</p>
+                    <p>🔐 Please login to participate</p>
                     <button class="btn btn-primary" onclick="openAuthModal()">Login / Register</button>
                 </div>
                 <div id="chatInputArea" class="chat-input-area" style="display: none;">
-                    <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." onkeypress="if(event.key==='Enter')sendMessage()">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendMessage()">
                     <button class="send-btn" onclick="sendMessage()">➤</button>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- AUTH MODAL -->
     <div class="modal" id="authModal">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" onclick="closeModal('authModal')">×</button>
-                <div class="icon">🌾</div>
                 <h2>Nuthimadugu Portal</h2>
-                <p>Connect with your village</p>
             </div>
             <div class="modal-tabs">
                 <button class="modal-tab active" onclick="switchAuthTab('login')">🔐 Login</button>
                 <button class="modal-tab" onclick="switchAuthTab('register')">📝 Register</button>
             </div>
             <div class="modal-body">
-                <!-- LOGIN -->
                 <div id="loginPanel" class="auth-panel active">
                     <div class="error-msg" id="loginError"></div>
-                    <div class="form-group">
-                        <label>📧 Email Address</label>
-                        <input type="email" id="loginEmail" placeholder="your.email@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label>🔑 Password</label>
-                        <input type="password" id="loginPassword" placeholder="Your password">
-                    </div>
-                    <button class="btn btn-primary btn-full" onclick="userLogin()" id="loginBtn2">🚀 Login</button>
-                    <p style="text-align: center; margin-top: 15px;">
-                        <span class="link-btn" onclick="switchAuthTab('forgot')">Forgot Password?</span>
-                    </p>
+                    <div class="form-group"><label>Email</label><input type="email" id="loginEmail"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="loginPassword"></div>
+                    <button class="btn btn-primary btn-full" onclick="userLogin()">🚀 Login</button>
+                    <p style="text-align: center; margin-top: 15px;"><span class="link-btn" onclick="switchAuthTab('forgot')">Forgot Password?</span></p>
                 </div>
 
-                <!-- REGISTER -->
                 <div id="registerPanel" class="auth-panel">
                     <div class="error-msg" id="registerError"></div>
                     <div class="success-msg" id="registerSuccess"></div>
-                    <div class="form-group">
-                        <label>👤 Full Name *</label>
-                        <input type="text" id="regName" placeholder="Your full name">
-                    </div>
-                    <div class="form-group">
-                        <label>📧 Email Address *</label>
-                        <input type="email" id="regEmail" placeholder="your.email@example.com">
-                    </div>
-                    <div class="form-group">
-                        <label>📱 Mobile Number *</label>
-                        <input type="tel" id="regMobile" maxlength="10" placeholder="10-digit mobile">
-                    </div>
-                    <div class="form-group">
-                        <label>🔑 Password *</label>
-                        <input type="password" id="regPassword" placeholder="Min 4 characters">
-                    </div>
-                    <div class="form-group">
-                        <label>🔐 Confirm Password *</label>
-                        <input type="password" id="regConfirmPassword" placeholder="Confirm password">
-                    </div>
-
-                    <div class="security-questions">
-                        <h4>🔒 Security Questions (For Password Recovery)</h4>
-                        <div class="info-msg" style="margin-bottom: 10px; font-size: 0.85em;">Choose 3 security questions and provide answers. You'll need these to reset your password.</div>
-                        
-                        <div class="form-group">
-                            <label>Question 1 *</label>
-                            <select id="secQ1"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Answer 1 *</label>
-                            <input type="text" id="secA1" placeholder="Your answer">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Question 2 *</label>
-                            <select id="secQ2"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Answer 2 *</label>
-                            <input type="text" id="secA2" placeholder="Your answer">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Question 3 *</label>
-                            <select id="secQ3"></select>
-                        </div>
-                        <div class="form-group">
-                            <label>Answer 3 *</label>
-                            <input type="text" id="secA3" placeholder="Your answer">
-                        </div>
-                    </div>
-
-                    <button class="btn btn-primary btn-full" onclick="registerUser()" id="registerBtn2">📝 Create Account</button>
+                    <div class="form-group"><label>Full Name</label><input type="text" id="regName"></div>
+                    <div class="form-group"><label>Email</label><input type="email" id="regEmail"></div>
+                    <div class="form-group"><label>Mobile</label><input type="tel" id="regMobile" maxlength="10"></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="regPassword"></div>
+                    <div class="form-group"><label>Confirm Password</label><input type="password" id="regConfirmPassword"></div>
+                    <div class="info-msg">Choose 3 security questions for account recovery:</div>
+                    <div class="form-group"><select id="secQ1"></select><input type="text" id="secA1" placeholder="Answer 1"></div>
+                    <div class="form-group"><select id="secQ2"></select><input type="text" id="secA2" placeholder="Answer 2"></div>
+                    <div class="form-group"><select id="secQ3"></select><input type="text" id="secA3" placeholder="Answer 3"></div>
+                    <button class="btn btn-primary btn-full" onclick="registerUser()">📝 Create Account</button>
                 </div>
 
-                <!-- FORGOT PASSWORD -->
                 <div id="forgotPanel" class="auth-panel">
-                    <div class="error-msg" id="forgotError"></div>
-                    <div class="success-msg" id="forgotSuccess"></div>
-                    
                     <div id="forgotStep1">
-                        <div class="form-group">
-                            <label>📧 Your Email</label>
-                            <input type="email" id="forgotEmail" placeholder="your.email@example.com">
-                        </div>
-                        <button class="btn btn-primary btn-full" onclick="getForgotQuestions()" id="getQuestionsBtn">➡️ Continue</button>
+                        <div class="form-group"><label>Enter Registered Email</label><input type="email" id="forgotEmail"></div>
+                        <button class="btn btn-primary btn-full" onclick="getForgotQuestions()">Continue</button>
                     </div>
-
-                    <div id="forgotStep2" style="display: none;">
-                        <div class="info-msg">Answer your security questions to reset your password</div>
-                        
-                        <div class="security-questions">
-                            <div class="form-group">
-                                <label id="forgotQ1Label">Question 1</label>
-                                <input type="text" id="forgotA1" placeholder="Your answer">
-                            </div>
-                            <div class="form-group">
-                                <label id="forgotQ2Label">Question 2</label>
-                                <input type="text" id="forgotA2" placeholder="Your answer">
-                            </div>
-                            <div class="form-group">
-                                <label id="forgotQ3Label">Question 3</label>
-                                <input type="text" id="forgotA3" placeholder="Your answer">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>🔑 New Password *</label>
-                            <input type="password" id="forgotNewPassword" placeholder="Min 4 characters">
-                        </div>
-                        <div class="form-group">
-                            <label>🔐 Confirm New Password *</label>
-                            <input type="password" id="forgotConfirmPassword" placeholder="Confirm password">
-                        </div>
-
-                        <button class="btn btn-primary btn-full" onclick="resetPassword()" id="resetBtn">✅ Reset Password</button>
+                    <div id="forgotStep2" style="display:none;">
+                        <p class="info-msg">Answer your security questions to reset password:</p>
+                        <p id="forgotQ1Label" style="font-size: 0.9em; margin-top: 10px;"></p><input type="text" id="forgotA1" class="form-group" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        <p id="forgotQ2Label" style="font-size: 0.9em; margin-top: 10px;"></p><input type="text" id="forgotA2" class="form-group" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        <p id="forgotQ3Label" style="font-size: 0.9em; margin-top: 10px;"></p><input type="text" id="forgotA3" class="form-group" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;">
+                        <div class="form-group" style="margin-top: 15px;"><label>New Password</label><input type="password" id="forgotNewPassword"></div>
+                        <button class="btn btn-primary btn-full" onclick="resetPassword()">Reset Password</button>
                     </div>
-
-                    <p style="text-align: center; margin-top: 15px;">
-                        <span class="link-btn" onclick="switchAuthTab('login')">← Back to Login</span>
-                    </p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ADMIN LOGIN MODAL -->
     <div class="modal" id="adminLoginModal">
         <div class="modal-content">
-            <div class="modal-header" style="background: linear-gradient(135deg, #333, #555);">
+            <div class="modal-header" style="background: #333;">
                 <button class="close" onclick="closeModal('adminLoginModal')">×</button>
-                <div class="icon">⚙️</div>
-                <h2>Admin Portal</h2>
-                <p>Village Management System</p>
+                <h2>Admin Login</h2>
+                <p style="font-size: 0.8em; opacity: 0.8;">Authorized Access Only</p>
             </div>
             <div class="modal-body">
                 <div class="error-msg" id="adminLoginError"></div>
-                <div class="form-group">
-                    <label>🔑 Admin Password</label>
-                    <input type="password" id="adminPassword" placeholder="Enter admin password" onkeypress="if(event.key==='Enter')adminLogin()">
-                </div>
-                <button class="btn btn-primary btn-full" onclick="adminLogin()" id="adminLoginBtn2">🚀 Admin Login</button>
-                <div class="info-msg" style="margin-top: 15px;">
-                    <strong>Default Admin Credentials:</strong><br>
-                    Password: <code>Farmer@515001</code>
-                </div>
+                <div class="form-group"><label>Admin Password</label><input type="password" id="adminPassword" placeholder="Enter password..."></div>
+                <button class="btn btn-primary btn-full" onclick="adminLogin()">🚀 Login</button>
             </div>
         </div>
     </div>
 
     <footer class="footer">
-        <p>🌾 <strong>Nuthimadugu Village Portal</strong></p>
-        <p>Kambadur Mandal, Anantapuramu District, Andhra Pradesh</p>
-        <p>PIN: 515787</p>
-        <p class="credit">Created by <strong>Girish Babu Kutagulla</strong></p>
+        <p>🌾 Nuthimadugu Village Portal | Created by Girish Babu Kutagulla</p>
     </footer>
 
     <script>
-        // Configuration
-        const API_BASE_URL = 'https://nuthimadugu-village-production-7781.up.railway.app/api'; // Change this to your server URL
+        // UPDATE THIS URL TO YOUR RAILWAY BACKEND URL
+        const API_BASE_URL = 'https://nuthimadugu-village-production-7781.up.railway.app/api';
+        
         let authToken = localStorage.getItem('authToken');
-        let currentUser = null;
+        let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         let securityQuestions = [];
         let forgotEmail = '';
 
-        // Initialize
         async function init() {
             await loadSecurityQuestions();
-            if (authToken) {
-                // Verify token is still valid
-                currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                updateUI();
-            }
+            if (authToken && currentUser) updateUI();
             setupNavigation();
         }
 
-        // Load Security Questions from API
         async function loadSecurityQuestions() {
             try {
-                const response = await fetch(`${API_BASE_URL}/security-questions`);
-                const data = await response.json();
+                const res = await fetch(`${API_BASE_URL}/security-questions`);
+                const data = await res.json();
                 if (data.success) {
                     securityQuestions = data.questions;
-                    populateSecurityQuestionDropdowns();
+                    ['secQ1', 'secQ2', 'secQ3'].forEach(id => {
+                        const s = document.getElementById(id);
+                        if (s) {
+                            s.innerHTML = '<option value="">Select Question</option>' + 
+                                         securityQuestions.map(q => `<option value="${q}">${q}</option>`).join('');
+                        }
+                    });
                 }
-            } catch (error) {
-                console.error('Error loading security questions:', error);
-            }
+            } catch (e) { console.error("Error loading security questions:", e); }
         }
 
-        // Populate Security Question Dropdowns
-        function populateSecurityQuestionDropdowns() {
-            const selects = ['secQ1', 'secQ2', 'secQ3'];
-            selects.forEach(selectId => {
-                const select = document.getElementById(selectId);
-                select.innerHTML = '<option value="">-- Select a question --</option>';
-                securityQuestions.forEach(q => {
-                    select.innerHTML += `<option value="${q}">${q}</option>`;
-                });
-            });
-        }
-
-        // Navigation
         function setupNavigation() {
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                btn.onclick = () => {
+                    document.querySelectorAll('.section, .nav-btn').forEach(el => el.classList.remove('active'));
                     document.getElementById(btn.dataset.section).classList.add('active');
                     btn.classList.add('active');
-                });
+                };
             });
         }
 
-        // Update UI based on login state
-        function updateUI() {
-            const userBadge = document.getElementById('userBadge');
-            const loginBtn = document.getElementById('loginBtn');
-            const adminBadge = document.getElementById('adminBadge');
-            
-            if (currentUser) {
-                userBadge.style.display = 'flex';
-                loginBtn.style.display = 'none';
-                document.getElementById('userName').textContent = currentUser.name;
-                document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
-                document.getElementById('chatLoginPrompt').style.display = 'none';
-                document.getElementById('chatInputArea').style.display = 'flex';
-                
-                if (currentUser.role === 'admin') {
-                    adminBadge.style.display = 'inline';
-                }
-            } else {
-                userBadge.style.display = 'none';
-                loginBtn.style.display = 'inline-flex';
-                document.getElementById('chatLoginPrompt').style.display = 'block';
-                document.getElementById('chatInputArea').style.display = 'none';
-                adminBadge.style.display = 'none';
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function openAuthModal() { switchAuthTab('login'); openModal('authModal'); }
+        function openAdminLogin() { openModal('adminLoginModal'); }
+
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.modal-tab, .auth-panel').forEach(el => el.classList.remove('active'));
+            if (tab === 'login') { 
+                document.querySelector('.modal-tab:nth-child(1)').classList.add('active'); 
+                document.getElementById('loginPanel').classList.add('active'); 
+            }
+            else if (tab === 'register') { 
+                document.querySelector('.modal-tab:nth-child(2)').classList.add('active'); 
+                document.getElementById('registerPanel').classList.add('active'); 
+            }
+            else if (tab === 'forgot') { 
+                document.getElementById('forgotPanel').classList.add('active'); 
+                document.getElementById('forgotStep1').style.display='block'; 
+                document.getElementById('forgotStep2').style.display='none';
             }
         }
 
-        // Modal functions
-        function openModal(id) { document.getElementById(id).classList.add('active'); }
-        function closeModal(
-\<Streaming stoppped because the conversation grew too long for this model\>
+        async function userLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            try {
+                const res = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (data.success) { 
+                    saveSession(data.token, data.user); 
+                    closeModal('authModal'); 
+                    updateUI(); 
+                }
+                else { alert(data.error); }
+            } catch (e) { alert("Login failed. Check server connection."); }
+        }
+
+        async function registerUser() {
+            const userData = {
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                mobile: document.getElementById('regMobile').value,
+                password: document.getElementById('regPassword').value,
+                securityQuestions: {
+                    question1: document.getElementById('secQ1').value, answer1: document.getElementById('secA1').value,
+                    question2: document.getElementById('secQ2').value, answer2: document.getElementById('secA2').value,
+                    question3: document.getElementById('secQ3').value, answer3: document.getElementById('secA3').value
+                }
+            };
+            try {
+                const res = await fetch(`${API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userData)
+                });
+                const data = await res.json();
+                if (data.success) { 
+                    saveSession(data.token, data.user); 
+                    closeModal('authModal'); 
+                    updateUI(); 
+                }
+                else { alert(data.error); }
+            } catch (e) { alert("Registration failed."); }
+        }
+
+        async function adminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            try {
+                const res = await fetch(`${API_BASE_URL}/auth/admin-login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+                const data = await res.json();
+                if (data.success) { 
+                    saveSession(data.token, data.user); 
+                    closeModal('adminLoginModal'); 
+                    updateUI(); 
+                }
+                else { alert(data.error); }
+            } catch (e) { alert("Admin Login failed."); }
+        }
+
+        async function getForgotQuestions() {
+            forgotEmail = document.getElementById('forgotEmail').value;
+            try {
+                const res = await fetch(`${API_BASE_URL}/auth/forgot-password/get-questions`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: forgotEmail })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('forgotQ1Label').innerText = data.questions.question1;
+                    document.getElementById('forgotQ2Label').innerText = data.questions.question2;
+                    document.getElementById('forgotQ3Label').innerText = data.questions.question3;
+                    document.getElementById('forgotStep1').style.display='none';
+                    document.getElementById('forgotStep2').style.display='block';
+                } else alert(data.error);
+            } catch (e) { alert("Error retrieving questions."); }
+        }
+
+        async function resetPassword() {
+            const payload = {
+                email: forgotEmail, newPassword: document.getElementById('forgotNewPassword').value,
+                answers: { answer1: document.getElementById('forgotA1').value, answer2: document.getElementById('forgotA2').value, answer3: document.getElementById('forgotA3').value }
+            };
+            try {
+                const res = await fetch(`${API_BASE_URL}/auth/forgot-password/verify-reset`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) { 
+                    alert("Password Reset Successfully!"); 
+                    switchAuthTab('login'); 
+                }
+                else alert(data.error);
+            } catch (e) { alert("Password reset failed."); }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            if (!input.value.trim() || !currentUser) return;
+            const msg = { 
+                sender: currentUser.name, 
+                text: input.value, 
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) 
+            };
+            addMessageToUI(msg, true);
+            input.value = '';
+        }
+
+        function addMessageToUI(msg, isOwn) {
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = `message ${isOwn ? 'own' : ''}`;
+            div.innerHTML = `<div class="msg-avatar">${msg.sender[0]}</div><div class="msg-content"><div class="msg-sender">${msg.sender}</div><div class="msg-bubble">${msg.text}</div><div class="msg-time">${msg.time}</div></div>`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function saveSession(token, user) {
+            authToken = token; currentUser = user;
+            localStorage.setItem('authToken', token);
+            localStorage.setItem('currentUser', JSON.stringify(user));
+        }
+
+        function logout() { localStorage.clear(); location.reload(); }
+
+        function updateUI() {
+            if (!currentUser) return;
+            document.getElementById('userBadge').style.display = 'flex';
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('userName').innerText = currentUser.name;
+            document.getElementById('userAvatar').innerText = currentUser.name[0];
+            document.getElementById('chatLoginPrompt').style.display = 'none';
+            document.getElementById('chatInputArea').style.display = 'flex';
+            document.getElementById('adminBadge').style.display = currentUser.role === 'admin' ? 'inline' : 'none';
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
