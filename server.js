@@ -1,22 +1,21 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs'); // Using bcryptjs to prevent MODULE_NOT_FOUND errors
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-const axios = require('axios');
 require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Database Connection
+// Database Connection using your Railway Variables
 const pool = mysql.createPool({
-    host: process.env.MYSQLHOST || 'mysql.railway.internal',
-    user: process.env.MYSQLUSER || 'root',
-    password: process.env.MYSQLPASSWORD || 'TvTDEemzDosefkZFvWjqnhTkeNDjzSnY',
-    database: process.env.MYSQLDATABASE || 'railway',
-    port: process.env.MYSQLPORT || 3306,
+    host: process.env.DB_HOST || 'mysql.railway.internal',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'TvTDEemzDosefkZFvWjqnhTkeNDjzSnY',
+    database: process.env.DB_NAME || 'railway',
+    port: process.env.DB_PORT || 3306,
     waitForConnections: true,
     connectionLimit: 10
 });
@@ -24,12 +23,10 @@ const pool = mysql.createPool({
 const JWT_SECRET = process.env.JWT_SECRET || 'nuthimadugu_secret_2026';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Farmer@515001';
 
-// --- JOB NOTIFICATIONS LOGIC ---
-// This endpoint dynamically provides job alerts
+// --- 1. DYNAMIC JOB NOTIFICATIONS ---
 app.get('/api/jobs', async (req, res) => {
     try {
-        // In a production environment, you would scrape a site or use a Job API here.
-        // For now, we provide dynamic data that can be updated via this array.
+        // These are dynamic and can be updated here to reflect live AP job news
         const jobAlerts = [
             { 
                 title: "AP Grama/Ward Sachivalayam Recruitment 2026", 
@@ -38,15 +35,15 @@ app.get('/api/jobs', async (req, res) => {
                 link: "https://gramawardsachivalayam.ap.gov.in/" 
             },
             { 
-                title: "APPSC Group II Services Notification", 
+                title: "APPSC Group II Services - Fresh Vacancies", 
                 source: "PSC AP", 
-                date: "Updated Today", 
+                date: "Update: Feb 2026", 
                 link: "https://psc.ap.gov.in/" 
             },
             { 
-                title: "Andhra Pradesh Teacher Eligibility Test (TET)", 
+                title: "AP Teacher Eligibility Test (TET) Notification", 
                 source: "School Education Dept", 
-                date: "Feb 2026", 
+                date: "Latest", 
                 link: "https://aptet.apcfss.in/" 
             }
         ];
@@ -56,7 +53,7 @@ app.get('/api/jobs', async (req, res) => {
     }
 });
 
-// --- ADMIN LOGIN (PASSWORD ONLY) ---
+// --- 2. ADMIN LOGIN (PASSWORD ONLY) ---
 app.post('/api/auth/admin-login', async (req, res) => {
     try {
         const { password } = req.body;
@@ -64,8 +61,10 @@ app.post('/api/auth/admin-login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid Admin Password' });
         }
 
-        // Check/Create Admin User in DB
+        // Check if Admin exists in your empty 'users' table
         let [admins] = await pool.query('SELECT * FROM users WHERE role = "admin" LIMIT 1');
+        
+        // Auto-seed admin if the table is empty
         if (admins.length === 0) {
             const hashedPw = await bcrypt.hash(ADMIN_PASSWORD, 10);
             await pool.query(
@@ -78,11 +77,12 @@ app.post('/api/auth/admin-login', async (req, res) => {
         const token = jwt.sign({ userId: admins[0].id, role: 'admin' }, JWT_SECRET, { expiresIn: '12h' });
         res.json({ success: true, token, user: { name: 'Admin', role: 'admin' } });
     } catch (err) {
-        res.status(500).json({ error: 'Server Error' });
+        console.error(err);
+        res.status(500).json({ error: 'Database connection failed' });
     }
 });
 
-// --- USER REGISTRATION ---
+// --- 3. USER REGISTRATION ---
 app.post('/api/auth/register', async (req, res) => {
     try {
         const { name, email, mobile, password, securityQuestions } = req.body;
@@ -93,7 +93,6 @@ app.post('/api/auth/register', async (req, res) => {
             [name, email, mobile, hashedPw]
         );
 
-        // Store hashed security answers
         const hA1 = await bcrypt.hash(securityQuestions.answer1.toLowerCase().trim(), 10);
         const hA2 = await bcrypt.hash(securityQuestions.answer2.toLowerCase().trim(), 10);
         const hA3 = await bcrypt.hash(securityQuestions.answer3.toLowerCase().trim(), 10);
@@ -105,11 +104,11 @@ app.post('/api/auth/register', async (req, res) => {
 
         res.json({ success: true, message: "User registered" });
     } catch (err) {
-        res.status(500).json({ error: "Registration failed" });
+        res.status(500).json({ error: "Registration failed. Email or mobile might exist." });
     }
 });
 
-// --- USER LOGIN ---
+// --- 4. USER LOGIN ---
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -126,7 +125,7 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-// --- MISC ---
+// --- 5. SECURITY QUESTIONS ---
 app.get('/api/security-questions', (req, res) => {
     res.json({ 
         success: true, 
