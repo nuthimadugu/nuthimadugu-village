@@ -23,8 +23,9 @@ const pool = mysql.createPool({
 const JWT_SECRET = process.env.JWT_SECRET || 'nuthimadugu_secret_2026';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Farmer@515001';
 
-// Railway Health Check - Prevents the container from stopping
-app.get('/', (req, res) => res.status(200).send('Village Portal Server Live'));
+// --- RAILWAY HEALTH CHECK ---
+// This stops Railway from "Stopping" your container
+app.get('/', (req, res) => res.status(200).send('Village Server Live'));
 
 // --- DYNAMIC JOBS ---
 app.get('/api/jobs', async (req, res) => {
@@ -35,7 +36,7 @@ app.get('/api/jobs', async (req, res) => {
     res.json({ success: true, jobs: jobAlerts });
 });
 
-// --- ADMIN LOGIN (PASSWORD ONLY) ---
+// --- ADMIN LOGIN ---
 app.post('/api/auth/admin-login', async (req, res) => {
     try {
         const { password } = req.body;
@@ -43,7 +44,6 @@ app.post('/api/auth/admin-login', async (req, res) => {
 
         let [admins] = await pool.query('SELECT * FROM users WHERE role = "admin" LIMIT 1');
         
-        // Auto-seed admin if the table is empty
         if (admins.length === 0) {
             const hashedPw = await bcrypt.hash(ADMIN_PASSWORD, 10);
             await pool.query(
@@ -55,9 +55,13 @@ app.post('/api/auth/admin-login', async (req, res) => {
 
         const token = jwt.sign({ userId: admins[0].id, role: 'admin' }, JWT_SECRET, { expiresIn: '12h' });
         res.json({ success: true, token, user: { name: 'Admin', role: 'admin' } });
-    } catch (err) { res.status(500).json({ error: 'Database Connection Error' }); }
+    } catch (err) { res.status(500).json({ error: 'DB Connection Error' }); }
 });
 
-// Use Port 8080 for Railway Traffic
+app.get('/api/security-questions', (req, res) => {
+    res.json({ success: true, questions: ["Mother's maiden name?", "First pet?", "Birth city?"] });
+});
+
+// Railway uses Port 8080 for public traffic
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server active on port ${PORT}`));
