@@ -6,8 +6,15 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+
+// Explicit CORS configuration to allow your GitHub site
+app.use(cors({
+    origin: '*', // Allows all origins to prevent connection errors during setup
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
-app.use(cors());
 
 // Database Pool using your Railway Variables
 const pool = mysql.createPool({
@@ -23,17 +30,25 @@ const pool = mysql.createPool({
 const JWT_SECRET = process.env.JWT_SECRET || 'nuthimadugu_secret_2026';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Farmer@515001';
 
-// --- RAILWAY HEALTH CHECK ---
-// This stops Railway from "Stopping" your container
-app.get('/', (req, res) => res.status(200).send('Village Server Live'));
+// REQUIRED: Root endpoint for Railway Health Check
+app.get('/', (req, res) => res.status(200).send('Village Server is Active'));
 
 // --- DYNAMIC JOBS ---
 app.get('/api/jobs', async (req, res) => {
     const jobAlerts = [
-        { title: "AP Grama Sachivalayam 2026", source: "Official Govt", date: new Date().toLocaleDateString(), link: "https://gramawardsachivalayam.ap.gov.in/" },
+        { title: "AP Grama Sachivalayam 2026", source: "Official Govt", date: "Feb 14", link: "https://gramawardsachivalayam.ap.gov.in/" },
         { title: "APPSC Group II Services", source: "PSC AP", date: "Feb 2026", link: "https://psc.ap.gov.in/" }
     ];
     res.json({ success: true, jobs: jobAlerts });
+});
+
+// --- VILLAGE GALLERY ---
+app.get('/api/gallery', async (req, res) => {
+    const images = [
+        { title: "Sri Venkateswara Temple", url: "https://via.placeholder.com/400x300?text=Temple", desc: "6AM-12PM, 4PM-8PM" },
+        { title: "ZP High School", url: "https://via.placeholder.com/400x300?text=School", desc: "9AM-4PM" }
+    ];
+    res.json({ success: true, images });
 });
 
 // --- ADMIN LOGIN ---
@@ -58,10 +73,6 @@ app.post('/api/auth/admin-login', async (req, res) => {
     } catch (err) { res.status(500).json({ error: 'DB Connection Error' }); }
 });
 
-app.get('/api/security-questions', (req, res) => {
-    res.json({ success: true, questions: ["Mother's maiden name?", "First pet?", "Birth city?"] });
-});
-
-// Railway uses Port 8080 for public traffic
+// Start server on Port 8080
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server active on port ${PORT}`));
