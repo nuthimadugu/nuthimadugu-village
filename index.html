@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🌾 Nuthimadugu Village Portal</title>
     <style>
-        /* [CSS Styles remain as previously provided to maintain village branding] */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #2e7d32;
@@ -18,25 +17,49 @@
             --border: #e0e0e0;
         }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        .header { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 100; }
+        
+        /* Header */
+        .header { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .btn { padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 6px; }
+        .header h1 { font-size: 1.5em; display: flex; align-items: center; gap: 8px; }
+        
+        /* Navigation */
+        .nav { background: white; padding: 10px; display: flex; justify-content: center; gap: 8px; border-bottom: 1px solid var(--border); position: sticky; top: 60px; z-index: 99; }
+        .nav-btn { padding: 10px 16px; border: none; background: var(--bg); border-radius: 25px; cursor: pointer; font-size: 0.9em; font-weight: 500; transition: 0.3s; }
+        .nav-btn:hover, .nav-btn.active { background: var(--primary); color: white; }
+        
+        /* Main Layout */
+        .main { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .section { display: none; animation: fadeIn 0.3s; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .card h3 { color: var(--primary); margin-bottom: 15px; }
+
+        /* Job Items */
+        .job-item { padding: 15px; border-left: 4px solid var(--secondary); background: #fff8e1; margin-bottom: 12px; border-radius: 4px; }
+        .job-item strong { color: var(--text); display: block; margin-bottom: 4px; }
+        .job-item small { color: #666; }
+        .apply-link { color: var(--accent); text-decoration: none; font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 8px; }
+        
+        /* Buttons */
+        .btn { padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer; font-size: 0.9em; font-weight: 500; transition: 0.3s; display: inline-flex; align-items: center; gap: 6px; }
         .btn-light { background: rgba(255,255,255,0.2); color: white; }
         .btn-secondary { background: var(--secondary); color: white; }
-        .nav { background: white; padding: 10px; display: flex; justify-content: center; gap: 8px; border-bottom: 1px solid var(--border); position: sticky; top: 60px; z-index: 99; }
-        .nav-btn { padding: 10px 16px; border: none; background: var(--bg); border-radius: 25px; cursor: pointer; }
-        .nav-btn.active { background: var(--primary); color: white; }
-        .main { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .section { display: none; }
-        .section.active { display: block; }
-        .card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .job-item { padding: 12px; border-left: 4px solid var(--secondary); background: #fff8e1; margin-bottom: 10px; border-radius: 4px; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
+        .btn-primary { background: var(--primary); color: white; }
+        
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
         .modal.active { display: flex; }
-        .modal-content { background: white; border-radius: 16px; max-width: 500px; width: 90%; overflow: hidden; }
-        .form-group { margin-bottom: 15px; padding: 0 20px; }
-        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
-        .footer { background: #333; color: white; text-align: center; padding: 20px; margin-top: 30px; }
+        .modal-content { background: white; border-radius: 16px; max-width: 500px; width: 100%; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .modal-header { padding: 20px; text-align: center; background: #333; color: white; }
+        .modal-body { padding: 25px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9em; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; }
+        
+        .footer { background: #333; color: white; text-align: center; padding: 20px; margin-top: 30px; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -47,7 +70,7 @@
                 <div style="font-size: 0.8em; opacity: 0.9;">Kambadur Mandal, Anantapuramu • 515787</div>
             </div>
             <div class="header-actions">
-                <div id="userBadge" style="display: none; color: white; align-items: center; gap: 10px;">
+                <div id="userBadge" style="display: none; align-items: center; gap: 10px;">
                     <span id="userName"></span>
                     <button class="btn btn-light" onclick="logout()">Logout</button>
                 </div>
@@ -66,69 +89,85 @@
     <main class="main">
         <section id="home" class="section active">
             <div class="card">
-                <h3>🌾 Welcome to Nuthimadugu</h3>
-                <p>Official portal for community updates and digital services.</p>
+                <h3>🌾 Village Update</h3>
+                <p>Welcome to the Nuthimadugu portal. Log in to access community features and live job notifications from across Andhra Pradesh.</p>
             </div>
         </section>
 
         <section id="jobs" class="section">
             <div class="card">
                 <h3>💼 Live AP Job Notifications</h3>
-                <p style="font-size: 0.85em; color: gray; margin-bottom: 15px;">Dynamically updated from official sources</p>
-                <div id="jobList"><p>Loading live notifications...</p></div>
+                <p style="font-size: 0.85em; color: #666; margin-bottom: 20px;">Fetching latest updates from official AP Govt sources...</p>
+                <div id="jobList">
+                    <p>Connecting to server...</p>
+                </div>
             </div>
         </section>
 
         <section id="chat" class="section">
             <div class="card">
                 <h3>💬 Community Chat</h3>
-                <div id="chatMessages" style="height: 300px; overflow-y: auto; background: #f9f9f9; padding: 10px; margin-bottom: 10px; border-radius: 8px;"></div>
-                <div id="chatInputArea" style="display: none;">
-                    <input type="text" id="chatInput" placeholder="Message..." style="width: 80%; padding: 10px; border-radius: 20px; border: 1px solid #ddd;">
-                    <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                <div id="chatMessages" style="height: 350px; overflow-y: auto; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 15px;">
+                    <p style="color: #999; text-align: center; margin-top: 100px;">Messages will appear here once you login.</p>
                 </div>
-                <div id="chatLoginPrompt">Please login to join the chat.</div>
+                <div id="chatInputArea" style="display: none;">
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="chatInput" placeholder="Type a message..." style="flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 25px; outline: none;">
+                        <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+                <div id="chatLoginPrompt" style="text-align: center; padding: 20px;">
+                    <p>🔐 Please login to participate in the chat.</p>
+                </div>
             </div>
         </section>
     </main>
 
     <div class="modal" id="adminLoginModal">
         <div class="modal-content">
-            <div style="background: #333; color: white; padding: 20px; text-align: center;">
+            <div class="modal-header">
                 <h2>Admin Login</h2>
             </div>
-            <div style="padding: 20px;">
-                <div id="adminLoginError" style="color: red; display: none; margin-bottom: 10px;"></div>
+            <div class="modal-body">
+                <div id="adminLoginError" style="color: #dc3545; background: #f8d7da; padding: 10px; border-radius: 8px; margin-bottom: 15px; display: none; text-align: center;"></div>
                 <div class="form-group">
                     <label>Admin Password</label>
                     <input type="password" id="adminPassword" placeholder="Enter password...">
                 </div>
-                <button class="btn btn-secondary" style="width: 100%;" onclick="adminLogin()">🚀 Login</button>
+                <button class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 12px;" onclick="adminLogin()">🚀 Verify & Login</button>
             </div>
-            <button onclick="closeModal('adminLoginModal')" style="width: 100%; border: none; padding: 10px; cursor: pointer;">Cancel</button>
+            <button onclick="closeModal('adminLoginModal')" style="width: 100%; background: none; border: none; padding: 15px; cursor: pointer; color: #666;">Cancel</button>
         </div>
     </div>
 
     <div class="modal" id="authModal">
         <div class="modal-content">
-            <div style="background: var(--primary); color: white; padding: 20px; text-align: center;">
-                <h2>User Portal</h2>
+            <div class="modal-header" style="background: var(--primary);">
+                <h2>User Login</h2>
             </div>
-            <div style="padding: 20px;">
-                <input type="email" id="loginEmail" placeholder="Email" style="width: 100%; padding: 10px; margin-bottom: 10px;">
-                <input type="password" id="loginPassword" placeholder="Password" style="width: 100%; padding: 10px; margin-bottom: 10px;">
-                <button class="btn btn-primary" style="width: 100%;" onclick="userLogin()">Login</button>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="yourname@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px;" onclick="userLogin()">Login to Portal</button>
             </div>
-            <button onclick="closeModal('authModal')" style="width: 100%; border: none; padding: 10px;">Close</button>
+            <button onclick="closeModal('authModal')" style="width: 100%; background: none; border: none; padding: 15px; cursor: pointer; color: #666;">Close</button>
         </div>
     </div>
 
     <footer class="footer">
-        <p>Created by Girish Babu Kutagulla • © 2026 Nuthimadugu Village</p>
+        <p>Created by Girish Babu Kutagulla • © 2026 Nuthimadugu Village Portal</p>
     </footer>
 
     <script>
+        // Updated Public URL from Railway Networking
         const API_BASE_URL = 'https://nuthimadugu-village-production-7781.up.railway.app/api';
+        
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
         async function init() {
@@ -137,7 +176,6 @@
             fetchLiveJobs();
         }
 
-        // --- NAVIGATION ---
         function setupNavigation() {
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.onclick = () => {
@@ -148,30 +186,25 @@
             });
         }
 
-        // --- LIVE JOB NOTIFICATIONS ---
         async function fetchLiveJobs() {
             const list = document.getElementById('jobList');
             try {
-                // This calls your backend which scrapes or uses an API to get AP jobs
-                const res = await fetch(`${API_BASE_URL}/jobs`); 
+                const res = await fetch(`${API_BASE_URL}/jobs`);
                 const data = await res.json();
-                if (data.success && data.jobs.length > 0) {
+                if (data.success) {
                     list.innerHTML = data.jobs.map(job => `
                         <div class="job-item">
-                            <strong>${job.title}</strong><br>
+                            <strong>${job.title}</strong>
                             <small>${job.source} • ${job.date}</small><br>
-                            <a href="${job.link}" target="_blank" style="color: var(--accent); font-size: 0.8em;">Apply Now →</a>
+                            <a href="${job.link}" target="_blank" class="apply-link">Apply Now →</a>
                         </div>
                     `).join('');
-                } else {
-                    list.innerHTML = "<p>No new notifications at this time.</p>";
                 }
             } catch (e) {
-                list.innerHTML = "<p>Unable to load live jobs. Please check back later.</p>";
+                list.innerHTML = "<p style='color: #dc3545;'>Failed to load notifications. Please check if the server is active.</p>";
             }
         }
 
-        // --- ADMIN LOGIN (PASSWORD ONLY) ---
         async function adminLogin() {
             const password = document.getElementById('adminPassword').value;
             const errorMsg = document.getElementById('adminLoginError');
@@ -191,11 +224,10 @@
                     errorMsg.style.display = 'block';
                 }
             } catch (e) {
-                alert("Server connection failed.");
+                alert("Server connection failed. Check your Railway logs.");
             }
         }
 
-        // --- USER AUTH ---
         async function userLogin() {
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
@@ -211,10 +243,9 @@
                     localStorage.setItem('authToken', data.token);
                     location.reload();
                 } else { alert(data.error); }
-            } catch (e) { alert("Login failed."); }
+            } catch (e) { alert("Login failed. Database table might be empty."); }
         }
 
-        // --- MODAL UTILS ---
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
         function openAuthModal() { openModal('authModal'); }
