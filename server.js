@@ -23,13 +23,13 @@ const pool = mysql.createPool({
 const JWT_SECRET = process.env.JWT_SECRET || 'nuthimadugu_secret_2026';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Farmer@515001';
 
-// Railway Health Check
-app.get('/', (req, res) => res.status(200).send('Village Server Live'));
+// Railway Health Check - Prevents the container from stopping
+app.get('/', (req, res) => res.status(200).send('Village Portal Server Live'));
 
 // --- DYNAMIC JOBS ---
 app.get('/api/jobs', async (req, res) => {
     const jobAlerts = [
-        { title: "AP Grama Sachivalayam 2026", source: "Official Govt", date: "Feb 14", link: "https://gramawardsachivalayam.ap.gov.in/" },
+        { title: "AP Grama Sachivalayam 2026", source: "Official Govt", date: new Date().toLocaleDateString(), link: "https://gramawardsachivalayam.ap.gov.in/" },
         { title: "APPSC Group II Services", source: "PSC AP", date: "Feb 2026", link: "https://psc.ap.gov.in/" }
     ];
     res.json({ success: true, jobs: jobAlerts });
@@ -43,7 +43,7 @@ app.post('/api/auth/admin-login', async (req, res) => {
 
         let [admins] = await pool.query('SELECT * FROM users WHERE role = "admin" LIMIT 1');
         
-        // Auto-seed admin if table is empty
+        // Auto-seed admin if the table is empty
         if (admins.length === 0) {
             const hashedPw = await bcrypt.hash(ADMIN_PASSWORD, 10);
             await pool.query(
@@ -55,13 +55,9 @@ app.post('/api/auth/admin-login', async (req, res) => {
 
         const token = jwt.sign({ userId: admins[0].id, role: 'admin' }, JWT_SECRET, { expiresIn: '12h' });
         res.json({ success: true, token, user: { name: 'Admin', role: 'admin' } });
-    } catch (err) { res.status(500).json({ error: 'DB Connection Error' }); }
+    } catch (err) { res.status(500).json({ error: 'Database Connection Error' }); }
 });
 
-app.get('/api/security-questions', (req, res) => {
-    res.json({ success: true, questions: ["Mother's maiden name?", "First pet?", "Birth city?"] });
-});
-
-// Use Railway provided port or default to 8080
+// Use Port 8080 for Railway Traffic
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, '0.0.0.0', () => console.log(`🚀 Server active on port ${PORT}`));
