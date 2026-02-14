@@ -18,11 +18,16 @@
         }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
         
+        /* News Ticker */
+        .ticker-wrap { background: #333; color: var(--secondary); padding: 10px 0; overflow: hidden; white-space: nowrap; border-bottom: 2px solid var(--secondary); }
+        .ticker { display: inline-block; animation: scroll 30s linear infinite; font-weight: bold; font-size: 0.9em; }
+        @keyframes scroll { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
         /* Header & Navigation */
         .header { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .nav { background: white; padding: 10px; display: flex; justify-content: center; gap: 8px; border-bottom: 1px solid var(--border); position: sticky; top: 60px; z-index: 99; }
-        .nav-btn { padding: 10px 16px; border: none; background: var(--bg); border-radius: 25px; cursor: pointer; font-size: 0.9em; transition: 0.3s; }
+        .nav { background: white; padding: 10px; display: flex; justify-content: center; gap: 8px; border-bottom: 1px solid var(--border); position: sticky; top: 65px; z-index: 99; }
+        .nav-btn { padding: 10px 16px; border: none; background: var(--bg); border-radius: 25px; cursor: pointer; font-size: 0.9em; transition: 0.3s; font-weight: 500; }
         .nav-btn.active { background: var(--primary); color: white; }
         
         /* Layout */
@@ -31,24 +36,27 @@
         .section.active { display: block; }
         .card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         
-        /* Dynamic Lists */
+        /* Tables & Lists */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; }
+        .data-table th, .data-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .data-table th { background: #f9f9f9; color: var(--primary); }
         .job-item { padding: 15px; border-left: 4px solid var(--secondary); background: #fff8e1; margin-bottom: 12px; border-radius: 4px; }
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
         .gallery-item { border-radius: 8px; overflow: hidden; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
-        /* Forms & Modals */
-        .btn { padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+        /* Buttons & Modals */
+        .btn { padding: 8px 16px; border: none; border-radius: 20px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-secondary { background: var(--secondary); color: white; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; }
         .modal.active { display: flex; }
         .modal-content { background: white; border-radius: 16px; max-width: 500px; width: 90%; overflow: hidden; }
-        .form-group { padding: 0 20px 15px 20px; }
-        .form-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
         .footer { background: #333; color: white; text-align: center; padding: 20px; margin-top: 30px; }
     </style>
 </head>
 <body>
+    <div class="ticker-wrap"><div class="ticker" id="jobTicker">Loading latest job alerts from AP...</div></div>
+
     <header class="header">
         <div class="header-content">
             <div>
@@ -69,6 +77,7 @@
     <nav class="nav">
         <button class="nav-btn active" data-section="home">🏠 Home</button>
         <button class="nav-btn" data-section="gallery">🖼️ Gallery</button>
+        <button class="nav-btn" data-section="donations">💰 Donations</button>
         <button class="nav-btn" data-section="jobs">💼 AP Jobs</button>
         <button class="nav-btn" data-section="chat">💬 Chat</button>
     </nav>
@@ -77,7 +86,7 @@
         <section id="home" class="section active">
             <div class="card">
                 <h3>🌾 Welcome to Nuthimadugu</h3>
-                <p>Official digital portal for village services and community updates.</p>
+                <p>The official digital portal for village services and community updates. Log in to join our community chat and view live job notifications.</p>
             </div>
         </section>
 
@@ -88,10 +97,20 @@
             </div>
         </section>
 
+        <section id="donations" class="section">
+            <div class="card">
+                <h3>💰 Development Fund Contributions</h3>
+                <p style="font-size: 0.85em; color: gray; margin-bottom: 10px;">Recent donations for village welfare projects.</p>
+                <table class="data-table">
+                    <thead><tr><th>Donor Name</th><th>Purpose</th><th>Amount</th></tr></thead>
+                    <tbody id="donationList"><tr><td colspan="3">Loading donation data...</td></tr></tbody>
+                </table>
+            </div>
+        </section>
+
         <section id="jobs" class="section">
             <div class="card">
                 <h3>💼 Live AP Job Notifications</h3>
-                <p style="font-size: 0.8em; color: gray; margin-bottom: 15px;">Dynamically updated from official government sources.</p>
                 <div id="jobList"><p>Fetching notifications...</p></div>
             </div>
         </section>
@@ -101,7 +120,7 @@
                 <h3>💬 Community Chat</h3>
                 <div id="chatMessages" style="height: 300px; overflow-y: auto; background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 15px;"></div>
                 <div id="chatInputArea" style="display: none; gap: 10px;">
-                    <input type="text" id="chatInput" placeholder="Message..." style="flex: 1; padding: 10px; border-radius: 20px; border: 1px solid #ddd;">
+                    <input type="text" id="chatInput" placeholder="Message..." style="flex: 1; padding: 12px; border-radius: 20px; border: 1px solid #ddd;">
                     <button class="btn btn-primary" onclick="sendMessage()">Send</button>
                 </div>
                 <div id="chatLoginPrompt" style="text-align: center;">🔐 Please login to join the chat.</div>
@@ -112,14 +131,9 @@
     <div class="modal" id="adminLoginModal">
         <div class="modal-content">
             <div style="background: #333; color: white; padding: 20px; text-align: center;"><h2>Admin Login</h2></div>
-            <div style="padding: 20px 0;">
-                <div class="form-group">
-                    <label style="display: block; margin-bottom: 5px; padding-left: 20px;">Password</label>
-                    <input type="password" id="adminPassword" placeholder="Enter password...">
-                </div>
-                <div style="padding: 0 20px;">
-                    <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="adminLogin()">Verify</button>
-                </div>
+            <div style="padding: 25px;">
+                <input type="password" id="adminPassword" placeholder="Enter password..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px;">
+                <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="adminLogin()">🚀 Verify</button>
             </div>
             <button onclick="closeModal('adminLoginModal')" style="width: 100%; border: none; padding: 15px; cursor: pointer;">Cancel</button>
         </div>
@@ -128,10 +142,10 @@
     <div class="modal" id="authModal">
         <div class="modal-content">
             <div style="background: var(--primary); color: white; padding: 20px; text-align: center;"><h2>User Login</h2></div>
-            <div style="padding: 20px 0;">
-                <div class="form-group"><input type="email" id="loginEmail" placeholder="Email"></div>
-                <div class="form-group"><input type="password" id="loginPassword" placeholder="Password"></div>
-                <div style="padding: 0 20px;"><button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="userLogin()">Login</button></div>
+            <div style="padding: 25px;">
+                <input type="email" id="loginEmail" placeholder="Email" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px;">
+                <input type="password" id="loginPassword" placeholder="Password" style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px;">
+                <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="userLogin()">Login</button>
             </div>
             <button onclick="closeModal('authModal')" style="width: 100%; border: none; padding: 15px; cursor: pointer;">Close</button>
         </div>
@@ -142,7 +156,7 @@
     </footer>
 
     <script>
-        // API URL from Railway Networking
+        // Production API URL
         const API_BASE_URL = 'https://nuthimadugu-village-production-7781.up.railway.app/api';
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
@@ -151,6 +165,7 @@
             setupNavigation();
             fetchLiveJobs();
             fetchGallery();
+            fetchDonations();
         }
 
         function setupNavigation() {
@@ -161,6 +176,21 @@
                     btn.classList.add('active');
                 };
             });
+        }
+
+        async function fetchDonations() {
+            const list = document.getElementById('donationList');
+            try {
+                const res = await fetch(`${API_BASE_URL}/donations`);
+                const data = await res.json();
+                if (data.success && data.donations.length > 0) {
+                    list.innerHTML = data.donations.map(d => `
+                        <tr><td>${d.donor_name}</td><td>${d.purpose}</td><td>₹${d.amount}</td></tr>
+                    `).join('');
+                } else {
+                    list.innerHTML = "<tr><td colspan='3'>No recent donations found.</td></tr>";
+                }
+            } catch (e) { list.innerHTML = "<tr><td colspan='3'>Error connecting to server.</td></tr>"; }
         }
 
         async function fetchGallery() {
@@ -181,6 +211,7 @@
 
         async function fetchLiveJobs() {
             const list = document.getElementById('jobList');
+            const ticker = document.getElementById('jobTicker');
             try {
                 const res = await fetch(`${API_BASE_URL}/jobs`);
                 const data = await res.json();
@@ -192,8 +223,9 @@
                             <a href="${job.link}" target="_blank" style="color:var(--accent); text-decoration:none; font-weight:bold;">Apply Now →</a>
                         </div>
                     `).join('');
+                    ticker.innerHTML = data.jobs.map(j => `🔹 ${j.title}`).join(' | ');
                 }
-            } catch (e) { list.innerHTML = "<p>Server connection failed. Please check logs.</p>"; }
+            } catch (e) { list.innerHTML = "<p>Server connection error.</p>"; }
         }
 
         async function adminLogin() {
@@ -210,7 +242,7 @@
                     localStorage.setItem('authToken', data.token);
                     location.reload();
                 } else { alert(data.error); }
-            } catch (e) { alert("Connection Error"); }
+            } catch (e) { alert("Server Connection Failed"); }
         }
 
         async function userLogin() {
@@ -228,7 +260,7 @@
                     localStorage.setItem('authToken', data.token);
                     location.reload();
                 } else { alert(data.error); }
-            } catch (e) { alert("Login Error"); }
+            } catch (e) { alert("Connection Error"); }
         }
 
         function openModal(id) { document.getElementById(id).classList.add('active'); }
